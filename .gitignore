@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+settings.local.json
+
+# Node.js
+node_modules/
+package-lock.json
