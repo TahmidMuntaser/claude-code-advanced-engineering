@@ -88,6 +88,7 @@ and noting the result in the pull request description.
 - Reference `.claude/settings.local.json` in tracked files; it is local-only.
 - Force push, reset hard, or delete branches without explicit confirmation.
 - Create placeholder files or directories that no exercise needs yet.
+- Run any git operation (commit, push, branch, checkout, reset, etc.) without your explicit permission.
 
 ## Notes
 
