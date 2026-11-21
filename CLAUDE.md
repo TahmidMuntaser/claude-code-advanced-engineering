@@ -43,6 +43,7 @@ Planned areas (create only when an exercise needs them, and update this list):
 - `.claude/agents/` - subagent definitions
 - `.claude/commands/` - project slash commands
 - `.claude/hooks/` - hook scripts
+- `.claude/skills/` - project skills (e.g. test-driven-development)
 - `docs/` - notes and decision records
 
 No application code exists yet.
