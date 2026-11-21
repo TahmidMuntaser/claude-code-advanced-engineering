@@ -27,16 +27,30 @@ Repository and review workflow:
 - `git push -u origin <branch>` - publish a branch
 - `gh pr create --base main` - open a pull request against `main`
 
-Project tooling: none configured yet. When you add a runnable tool (test runner,
-linter, formatter, script), record its exact command here in the same commit.
+Project tooling:
+
+- `npm test` - run vitest test suite
+- `git status` - check working tree status
+
+When you add a runnable tool (test runner, linter, formatter, script), record its exact
+command here in the same commit.
 
 ## Repository layout
 
 Currently tracked:
 
 - `README.md` - project entry point
-- `.gitignore` - covers Python and build artifacts, env files, and local settings
+- `.gitignore` - covers Python and build artifacts, env files, local settings, and node_modules
 - `CLAUDE.md` - this file
+- `package.json` - npm project config with `npm test` script
+- `vitest.config.js` - vitest configuration (jsdom environment)
+
+Application code:
+
+- `index.html` - HTML structure for the Todo List app
+- `script.js` - JavaScript functionality for the Todo List app
+- `styles.css` - CSS styling for the Todo List app
+- `tests/script.test.js` - vitest tests for script.js functions
 
 Planned areas (create only when an exercise needs them, and update this list):
 
@@ -45,8 +59,6 @@ Planned areas (create only when an exercise needs them, and update this list):
 - `.claude/hooks/` - hook scripts
 - `.claude/skills/` - project skills (e.g. test-driven-development)
 - `docs/` - notes and decision records
-
-No application code exists yet.
 
 ## Conventions
 
@@ -70,8 +82,10 @@ Generated with [Claude Code](https://claude.com/claude-code)
 
 ## Testing and verification
 
-No test tooling is configured yet. When code is added, add tests with it and run them
-before committing. Until then, verify changes by running the script or hook directly
+Test tooling: vitest with jsdom environment (`npm test`).
+
+When code is added, add tests with it and run them before committing.
+Until then, verify changes by running the script or hook directly
 and noting the result in the pull request description.
 
 ## Before opening a pull request
