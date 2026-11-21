@@ -29,7 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // Load tasks from localStorage
 function loadTasks() {
   const stored = localStorage.getItem(STORAGE_KEY);
-  return stored ? JSON.parse(stored) : [];
+  if (!stored) return [];
+  try {
+    return JSON.parse(stored);
+  } catch {
+    // Corrupted localStorage — start fresh rather than crash on load
+    localStorage.removeItem(STORAGE_KEY);
+    return [];
+  }
 }
 
 // Save tasks to localStorage
@@ -58,12 +65,12 @@ function renderTasks(tasks) {
       <span class="task-text">${escapeHtml(task.text)}</span>
       <div class="task-item-actions">
         <button class="complete-btn ${task.completed ? 'completed' : ''}"
-                data-id="${task.id}"
+                data-id="${escapeAttr(task.id)}"
                 aria-label="${task.completed ? 'Mark incomplete' : 'Mark complete'}">
           ${task.completed ? 'Undo' : 'Complete'}
         </button>
-        <button class="edit-btn" data-id="${task.id}" aria-label="Edit task">Edit</button>
-        <button class="delete-btn" data-id="${task.id}" aria-label="Delete task">Delete</button>
+        <button class="edit-btn" data-id="${escapeAttr(task.id)}" aria-label="Edit task">Edit</button>
+        <button class="delete-btn" data-id="${escapeAttr(task.id)}" aria-label="Delete task">Delete</button>
       </div>
     `;
 
@@ -76,6 +83,17 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+// Escape a value for safe insertion into HTML attributes
+function escapeAttr(text) {
+  return String(text).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[c]));
 }
 
 // Handle task click events (delegate to task list)
@@ -120,7 +138,7 @@ function handleAddTask() {
 
   const tasks = loadTasks();
   const newTask = {
-    id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+    id: crypto.randomUUID(),
     text: text,
     completed: false,
     createdAt: new Date().toISOString(),
